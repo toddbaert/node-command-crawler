@@ -18,7 +18,7 @@ chokidar.watch(targetDirectory, {
     if (fs.statSync(path).ctimeMs > startupTime && processed.indexOf(path) < 0) {
         console.log('Found file: ' + path);
         var tempPath = path.replace(/(\.[\w\d_-]+)$/i, '_temp$1');
-        child.exec(('ffmpeg -i %file% -c:v copy -c:a aac -vbr 3 ' + tempPath).replace(/%file%/g, path), execCallback);
+        child.exec(('ffmpeg -i %file% -c:v copy -c:a aac -vbr 3 -nostdin ' + tempPath).replace(/%file%/g, path), execCallback);
         child.exec(('mv %file%.processing ' + tempPath).replace(/%file%/g, path));
         processed.push(path);
         console.log('Finished processing file: ' + path);
