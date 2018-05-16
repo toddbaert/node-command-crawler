@@ -11,14 +11,14 @@ console.log('Starting node command crawler on: ' + targetDirectory);
 chokidar.watch(targetDirectory, {
     ignored: /(^|[\/\\])\../,
     awaitWriteFinish: {
-        stabilityThreshold: 30000,
+        stabilityThreshold: 3000,
         pollInterval: 250
     }
 }).on('add', function (path) {
     if (fs.statSync(path).ctimeMs > startupTime && processed.indexOf(path) < 0) {
         console.log('Found file: ' + path);
-        var tempPath = path.replace(/(\.[\w\d_-]+)$/i, '_large$1');
-        child.exec(('ffmpeg %file% -c:v copy -c:a aac -vbr ' + tempPath).replace(/%file%/g, path), execCallback);
+        var tempPath = path.replace(/(\.[\w\d_-]+)$/i, '_temp$1');
+        child.exec(('ffmpeg -i %file% -c:v copy -c:a aac -vbr3 ' + tempPath).replace(/%file%/g, path), execCallback);
         child.exec(('mv %file%.processing ' + tempPath).replace(/%file%/g, path));
         processed.push(path);
         console.log('Finished processing file: ' + path);

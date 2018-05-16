@@ -11,7 +11,7 @@ console.log('Starting node command crawler on: ' + targetDirectory);
 chokidar.watch(targetDirectory, {
     ignored: /(^|[\/\\])\../,
         awaitWriteFinish: {
-            stabilityThreshold: 30000,
+            stabilityThreshold: 3000,
             pollInterval: 250
         }
     }).on('add', (path) => {
