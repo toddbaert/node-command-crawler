@@ -12,7 +12,9 @@ chokidar.watch(targetDirectory, { ignored: /(^|[\/\\])\../ }).on('add', function
     if (fs.statSync(path).ctimeMs > startupTime && processed.indexOf(path) < 0) {
         console.log('Found file: ' + path);
         child.exec('ffmpeg %file% -c:v copy -c:a aac -vbr 3 %file%.processing'.replace('%file%', path));
+        console.log('executing: ' + 'ffmpeg %file% -c:v copy -c:a aac -vbr 3 %file%.processing'.replace('%file%', path));
         child.exec('mv %file%.processing %file%'.replace('%file%', path));
+        console.log('executing: ' + 'mv %file%.processing %file%'.replace('%file%', path));
         processed.push(path);
         console.log('Finished processing file: ' + path);
     }
