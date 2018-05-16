@@ -8,7 +8,13 @@ const startupTime: number = new Date().getTime();
 const processed: string[] = [];
 
 console.log('Starting node command crawler on: ' + targetDirectory);
-chokidar.watch(targetDirectory, {ignored: /(^|[\/\\])\../}).on('add', (path) => {
+chokidar.watch(targetDirectory, {
+    ignored: /(^|[\/\\])\../,
+        awaitWriteFinish: {
+            stabilityThreshold: 30000,
+            pollInterval: 250
+        }
+    }).on('add', (path) => {
     if (fs.statSync(path).ctimeMs > startupTime && processed.indexOf(path) < 0) {
         console.log('Found file: ' + path);
         child.exec('ffmpeg %file% -c:v copy -c:a aac -vbr 3 %file%.processing'.replace(/%file%/g, path), execCallback);
