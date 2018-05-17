@@ -1,5 +1,4 @@
 import fs = require('fs');
-import chokidar = require('chokidar');
 import child = require('child_process');
 
 const targetDirectory : string = process.argv[2];
